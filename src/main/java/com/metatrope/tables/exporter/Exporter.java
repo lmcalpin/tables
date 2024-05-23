@@ -19,7 +19,7 @@ public interface Exporter extends AutoCloseable {
     public void onCompleted();
 
     public void setOutputStream(OutputStream os);
-    
+
     public void onNext(Row row);
 
     public void onStart(Format format);

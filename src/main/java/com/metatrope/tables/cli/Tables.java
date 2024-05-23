@@ -19,6 +19,10 @@ public class Tables implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         try {
+            if (in != null && !in.exists()) {
+                System.out.println("File not found: " + in.getName());
+                return 2;
+            }
             try (FileOutputStream fos = new FileOutputStream(out)) {
                 Etl.source(ImporterFactory.fromFileExtension(in)).sink(ExporterFactory.fromFileExtension(out)).convert(fos);
             }

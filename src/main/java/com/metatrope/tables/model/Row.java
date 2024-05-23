@@ -93,7 +93,7 @@ public class Row {
         Column c = format.findColumn(id);
         return setValue(c, v);
     }
-    
+
     public Row setValues(Object... vs) {
         List<Column> columns = getColumnsInDefaultOrder();
         int i = 0;

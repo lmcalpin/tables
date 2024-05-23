@@ -51,7 +51,7 @@ public abstract class StringExporter implements Exporter {
     @Override
     public void onCompleted() {
     }
-    
+
     @Override
     public void setOutputStream(OutputStream os) {
         this.os = os;

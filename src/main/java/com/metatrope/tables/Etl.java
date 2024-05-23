@@ -62,7 +62,7 @@ public class Etl {
         } while (currentRow != null);
         sink.onCompleted();
     }
-    
+
     public String convertToString() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         convert(baos);

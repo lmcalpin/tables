@@ -1,11 +1,9 @@
 package com.metatrope.tables.cli;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import com.metatrope.tables.importer.ParquetImporterTest;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.File;
-import java.net.URL;
 
 import org.junit.jupiter.api.Test;
 
@@ -22,11 +20,12 @@ public class TablesTest {
         assertEquals("test.json", outFile.getName());
     }
 
-    /*
     @Test
-    public void testConvert() {
-        String parquetFile = ParquetImporterTest.class.getResource("/test.parquet").toString();
-        new CommandLine(new Tables()).execute("--in", parquetFile, "--out", "test2.csv");
+    public void testConvertFileNotFound() {
+        int ret = new CommandLine(new Tables()).execute("--in", "test.doesnotexist", "--out", "test-output.csv");
+        assertEquals(2, ret); // file not found
+        // make sure we did not create the output file since we did not do anything
+        File f = new File("test-output.csv");
+        assertFalse(f.exists());
     }
-    */
 }
