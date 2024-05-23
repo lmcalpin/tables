@@ -8,15 +8,15 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.exporter;
+package com.metatrope.tables.importer;
 
-import com.metatrope.tables.DataType;
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
-import com.metatrope.tables.importer.CsvImporter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Assert;
-import org.junit.Test;
+import com.metatrope.tables.model.DataType;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
+
+import org.junit.jupiter.api.Test;
 
 public class TablesImporterTest {
     @Test
@@ -29,9 +29,9 @@ public class TablesImporterTest {
 
         try (CsvImporter importer = new CsvImporter(csv)) {
             Row row = importer.next();
-            Assert.assertEquals("12345", row.getData("tradeID").getObject());
+            assertEquals("12345", row.getData("tradeID").getObject());
             row = importer.next();
-            Assert.assertEquals("22345", row.getData("tradeID").getObject());
+            assertEquals("22345", row.getData("tradeID").getObject());
         }
     }
 }

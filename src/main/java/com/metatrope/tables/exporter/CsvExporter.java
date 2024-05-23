@@ -10,14 +10,13 @@
  *******************************************************************************/
 package com.metatrope.tables.exporter;
 
-import com.metatrope.tables.Column;
-import com.metatrope.tables.DataType;
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
-import com.metatrope.tables.Value;
+import com.metatrope.tables.model.Column;
+import com.metatrope.tables.model.DataType;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
+import com.metatrope.tables.model.Value;
 import com.metatrope.util.FormatUtils;
 
-import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,10 +27,6 @@ import com.google.common.base.Strings;
 public class CsvExporter extends StringExporter {
     public CsvExporter() {
         super();
-    }
-
-    public CsvExporter(StringWriter writer) {
-        super(writer);
     }
 
     private String checkForComma(String s) {

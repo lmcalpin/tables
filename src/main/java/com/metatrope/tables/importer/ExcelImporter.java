@@ -10,11 +10,11 @@
  *******************************************************************************/
 package com.metatrope.tables.importer;
 
-import com.metatrope.tables.Column;
-import com.metatrope.tables.DataType;
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
 import com.metatrope.tables.exception.TableImporterException;
+import com.metatrope.tables.model.Column;
+import com.metatrope.tables.model.DataType;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

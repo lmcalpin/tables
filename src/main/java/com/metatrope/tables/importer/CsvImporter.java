@@ -10,11 +10,11 @@
  *******************************************************************************/
 package com.metatrope.tables.importer;
 
-import com.metatrope.tables.Column;
-import com.metatrope.tables.DataType;
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
 import com.metatrope.tables.exception.TableImporterException;
+import com.metatrope.tables.model.Column;
+import com.metatrope.tables.model.DataType;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +34,11 @@ public class CsvImporter extends PeekableImporter {
         iterator = stream.iterator();
     }
 
+    public CsvImporter(Format format, String csv) {
+        this(csv);
+        loadedHeader = true;
+    }
+
     public static List<String> splitCSV(String line) {
         List<String> elements = new ArrayList<String>();
         java.util.regex.Matcher m = java.util.regex.Pattern.compile("(?:^|,)(\"(?:[^\"]|\"\")*\"|[^,]*)").matcher(line);
@@ -47,6 +52,7 @@ public class CsvImporter extends PeekableImporter {
 
     @Override
     public void close() throws IOException {
+        stream.close();
     }
 
     private String nextLine() {

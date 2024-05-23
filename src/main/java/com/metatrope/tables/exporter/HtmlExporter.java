@@ -10,25 +10,18 @@
  *******************************************************************************/
 package com.metatrope.tables.exporter;
 
-import com.metatrope.tables.Column;
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
-
-import java.io.StringWriter;
+import com.metatrope.tables.model.Column;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
 
 public class HtmlExporter extends StringExporter {
     public HtmlExporter() {
         super();
     }
 
-    public HtmlExporter(StringWriter writer) {
-        super(writer);
-    }
-
     @Override
-    public String onCompleted() {
+    public void onCompleted() {
         append("</table>");
-        return super.onCompleted();
     }
 
     @Override

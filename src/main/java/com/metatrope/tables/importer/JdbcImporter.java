@@ -10,9 +10,9 @@
  *******************************************************************************/
 package com.metatrope.tables.importer;
 
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
 import com.metatrope.tables.exception.TableImporterException;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -44,8 +44,10 @@ public class JdbcImporter implements Importer {
     @Override
     public void close() throws IOException {
         try {
-            rs.close();
-            ps.close();
+            if (!rs.isClosed())
+                rs.close();
+            if (!ps.isClosed())
+                ps.close();
         } catch (SQLException e) {
             throw new TableImporterException(e);
         }

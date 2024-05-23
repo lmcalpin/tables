@@ -10,14 +10,15 @@
  *******************************************************************************/
 package com.metatrope.tables.exporter;
 
-import com.metatrope.tables.DataType;
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
-import com.metatrope.tables.Tables;
-import com.metatrope.tables.importer.ListImporter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Assert;
-import org.junit.Test;
+import com.metatrope.tables.Etl;
+import com.metatrope.tables.importer.ListImporter;
+import com.metatrope.tables.model.DataType;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
+
+import org.junit.jupiter.api.Test;
 
 public class TablesExporterTest {
     @Test
@@ -34,7 +35,7 @@ public class TablesExporterTest {
         row2.setValue("tradeID", "22345");
         row2.setValue("notional", "200000.00");
 
-        String csv = Tables.<String> source(listImporter).sink(new CsvExporter());
-        Assert.assertEquals("tradeID,notional\n" + "12345,100000.00\n" + "22345,200000.00\n", csv);
+        String csv = Etl.source(listImporter).sink(new CsvExporter()).convertToString();
+        assertEquals("tradeID,notional\n" + "12345,100000.00\n" + "22345,200000.00\n", csv);
     }
 }

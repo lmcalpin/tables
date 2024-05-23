@@ -10,26 +10,23 @@
  *******************************************************************************/
 package com.metatrope.tables.exporter;
 
-import com.metatrope.tables.Value;
 import com.metatrope.tables.exception.TableExporterException;
+import com.metatrope.tables.model.Value;
 import com.metatrope.util.IOUtil;
 
-import java.io.StringWriter;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
-public abstract class StringExporter implements Exporter<String> {
-    private StringWriter writer;
+public abstract class StringExporter implements Exporter {
+    private PrintStream stream;
+    private OutputStream os;
 
     public StringExporter() {
-        this.writer = new StringWriter();
-    }
-
-    public StringExporter(StringWriter writer) {
-        this.writer = writer;
     }
 
     protected void append(String o) {
         try {
-            writer.append(o);
+            stream.append(o);
         } catch (Throwable t) {
             throw new TableExporterException("Error appending to output stream", t);
         }
@@ -37,7 +34,7 @@ public abstract class StringExporter implements Exporter<String> {
 
     protected void append(Value v) {
         try {
-            writer.append(v.getObject().toString());
+            stream.append(v.getObject().toString());
         } catch (Throwable t) {
             throw new TableExporterException("Error appending to output stream", t);
         }
@@ -45,11 +42,19 @@ public abstract class StringExporter implements Exporter<String> {
 
     @Override
     public void close() {
-        IOUtil.close(writer);
+        if (os != null) {
+            IOUtil.close(stream);
+            IOUtil.close(os);
+        }
     }
 
     @Override
-    public String onCompleted() {
-        return writer.toString();
+    public void onCompleted() {
+    }
+    
+    @Override
+    public void setOutputStream(OutputStream os) {
+        this.os = os;
+        this.stream = new PrintStream(os);
     }
 }

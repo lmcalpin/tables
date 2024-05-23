@@ -10,13 +10,15 @@
  *******************************************************************************/
 package com.metatrope.tables.exporter;
 
-import com.metatrope.tables.Column;
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
-import com.metatrope.tables.Value;
 import com.metatrope.tables.exception.TableExporterException;
+import com.metatrope.tables.model.Column;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
+import com.metatrope.tables.model.Value;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -26,13 +28,14 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-public class ExcelExporter implements Exporter<byte[]> {
+public class ExcelExporter implements Exporter {
     private HSSFWorkbook wb;
     private ExcelColorizer colorizer;
     private String sectionName;
     private Format format;
     private int rowNumber = 1;
     private HSSFSheet sheet;
+    private OutputStream os;
 
     public ExcelExporter(String sectionName) {
         this.sectionName = sectionName;
@@ -53,6 +56,13 @@ public class ExcelExporter implements Exporter<byte[]> {
 
     @Override
     public void close() throws Exception {
+        if (os != null) {
+            try {
+                os.close();
+            } catch (IOException e) {
+                throw new TableExporterException(e);
+            }
+        }
     }
 
     private void createWorksheet() {
@@ -86,8 +96,15 @@ public class ExcelExporter implements Exporter<byte[]> {
     }
 
     @Override
-    public byte[] onCompleted() {
-        return getExcelReport(wb);
+    public void onCompleted() {
+        byte[] bytes = getExcelReport(wb);
+        if (os != null) {
+            try {
+                os.write(bytes);
+            } catch (IOException e) {
+                throw new TableExporterException(e);
+            }
+        }
     }
 
     @Override
@@ -151,5 +168,10 @@ public class ExcelExporter implements Exporter<byte[]> {
 
     public void setColorizer(ExcelColorizer colorizer) {
         this.colorizer = colorizer;
+    }
+
+    @Override
+    public void setOutputStream(OutputStream os) {
+        this.os = os;
     }
 }

@@ -10,9 +10,9 @@
  *******************************************************************************/
 package com.metatrope.tables.exporter;
 
-import com.metatrope.tables.DataType;
-import com.metatrope.tables.Row;
-import com.metatrope.tables.Value;
+import com.metatrope.tables.model.DataType;
+import com.metatrope.tables.model.Row;
+import com.metatrope.tables.model.Value;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,9 +37,8 @@ public class DefaultExcelColorizer implements ExcelColorizer {
     protected HSSFFont boldFont, normalFont, redFont;
     protected HSSFCellStyle headerStyle;
     private HSSFWorkbook wb;
-    protected Map<String, HSSFCellStyle> CELL_STYLE = new HashMap<String, HSSFCellStyle>();
-
-    protected Map<String, Short> DATA_FORMAT = new HashMap<String, Short>();
+    protected Map<String, HSSFCellStyle> CELL_STYLE = new HashMap<>();
+    protected Map<String, Short> DATA_FORMAT = new HashMap<>();
     private int rowNumber = 1;
 
     private void colorHeader(HSSFWorkbook wb, HSSFSheet sheet) {
@@ -85,20 +84,6 @@ public class DefaultExcelColorizer implements ExcelColorizer {
         colorHeader(wb, sheet);
     }
 
-    // Excel interprets java date formats differently -- normally we would use
-    // m/d/yy (or d/m/yy for UK format)
-    private String convertJavaDateFormat(String in) {
-        if (in.equalsIgnoreCase("dd/mm/yy"))
-            return "d/m/yy";
-        if (in.equalsIgnoreCase("dd/mm/yyyy"))
-            return "d/m/yy";
-        if (in.equalsIgnoreCase("mm/dd/yy"))
-            return "m/d/yy";
-        if (in.equalsIgnoreCase("mm/dd/yyyy"))
-            return "m/d/yy";
-        return in;
-    }
-
     protected HSSFCellStyle createCellStyle(HSSFWorkbook wb, Value v, String hint, String metadata) {
         HSSFCellStyle style;
         style = wb.createCellStyle();
@@ -133,7 +118,7 @@ public class DefaultExcelColorizer implements ExcelColorizer {
             return s.shortValue();
         }
         HSSFDataFormat df = wb.createDataFormat();
-        short idx = df.getFormat(convertJavaDateFormat(metadata));
+        short idx = df.getFormat(toExcelDateFormat(metadata));
         DATA_FORMAT.put(metadata, idx);
         return idx;
     }
@@ -144,5 +129,19 @@ public class DefaultExcelColorizer implements ExcelColorizer {
         if (hint.equalsIgnoreCase("Y"))
             return redFont;
         return normalFont;
+    }
+
+    // Excel interprets java date formats differently -- it wants
+    // m/d/yy (or d/m/yy for UK format)
+    private String toExcelDateFormat(String in) {
+        if (in.equalsIgnoreCase("dd/mm/yy"))
+            return "d/m/yy";
+        if (in.equalsIgnoreCase("dd/mm/yyyy"))
+            return "d/m/yy";
+        if (in.equalsIgnoreCase("mm/dd/yy"))
+            return "m/d/yy";
+        if (in.equalsIgnoreCase("mm/dd/yyyy"))
+            return "m/d/yy";
+        return in;
     }
 }

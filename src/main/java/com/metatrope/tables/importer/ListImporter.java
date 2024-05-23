@@ -10,8 +10,8 @@
  *******************************************************************************/
 package com.metatrope.tables.importer;
 
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +28,10 @@ public class ListImporter implements Importer {
     private List<Row> rows = new ArrayList<>();
     private boolean startIterator = false;
     private Iterator<Row> it;
+
+    public ListImporter(List<List<?>> data) {
+        this.format = format;
+    }
 
     public ListImporter(Format format) {
         this.format = format;

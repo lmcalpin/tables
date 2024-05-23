@@ -10,7 +10,7 @@
  *******************************************************************************/
 package com.metatrope.tables.importer;
 
-import com.metatrope.tables.DataType;
+import com.metatrope.tables.model.DataType;
 
 public enum SqlDataType {
     BIT(-7),

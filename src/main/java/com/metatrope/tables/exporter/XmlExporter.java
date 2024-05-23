@@ -10,11 +10,11 @@
  *******************************************************************************/
 package com.metatrope.tables.exporter;
 
-import com.metatrope.tables.Column;
-import com.metatrope.tables.DataType;
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
-import com.metatrope.tables.Value;
+import com.metatrope.tables.model.Column;
+import com.metatrope.tables.model.DataType;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
+import com.metatrope.tables.model.Value;
 import com.metatrope.util.FormatUtils;
 
 import java.io.StringWriter;
@@ -29,10 +29,6 @@ public class XmlExporter extends StringExporter {
 
     public XmlExporter() {
         super();
-    }
-
-    public XmlExporter(StringWriter writer) {
-        super(writer);
     }
 
     private String format(Object o, Column c) {
@@ -64,9 +60,8 @@ public class XmlExporter extends StringExporter {
     }
 
     @Override
-    public String onCompleted() {
+    public void onCompleted() {
         append("</" + rootName + ">\n");
-        return super.onCompleted();
     }
 
     @Override

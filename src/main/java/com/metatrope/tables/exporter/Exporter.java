@@ -10,12 +10,16 @@
  *******************************************************************************/
 package com.metatrope.tables.exporter;
 
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
 
-public interface Exporter<T> extends AutoCloseable {
-    public T onCompleted();
+import java.io.OutputStream;
 
+public interface Exporter extends AutoCloseable {
+    public void onCompleted();
+
+    public void setOutputStream(OutputStream os);
+    
     public void onNext(Row row);
 
     public void onStart(Format format);

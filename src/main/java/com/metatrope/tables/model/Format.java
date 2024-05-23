@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables;
+package com.metatrope.tables.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +21,8 @@ import org.slf4j.LoggerFactory;
 public class Format {
     private static final Logger LOGGER = LoggerFactory.getLogger(Format.class);
 
-    // the data we capture for this file format
     private List<Column> columns;
-
-    // an index to find columns by name
-    private Map<String, Column> columnMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private Map<String, Column> columnNameMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     public Format() {
 
@@ -37,9 +34,12 @@ public class Format {
 
     public Column addColumn(Column column) {
         getColumns().add(column);
-        // update the index
-        columnMap.put(column.getID(), column);
+        columnNameMap.put(column.getID(), column);
         return column;
+    }
+
+    public Column addColumn(String name) {
+        return addColumn(new Column(name, DataType.UNKNOWN));
     }
 
     public Column addColumn(String name, DataType dataType) {
@@ -56,12 +56,12 @@ public class Format {
 
     // search for column in a case insensitive fashion
     public Column findColumn(String id) {
-        return columnMap.get(id);
+        return columnNameMap.get(id);
     }
 
     public List<Column> getColumns() {
         if (columns == null) {
-            columns = new ArrayList<Column>();
+            columns = new ArrayList<>();
         }
         return columns;
     }

@@ -10,10 +10,13 @@
  *******************************************************************************/
 package com.metatrope.tables;
 
-import com.metatrope.tables.conversion.RowConverter;
 import com.metatrope.tables.exporter.Exporter;
 import com.metatrope.tables.importer.Importer;
+import com.metatrope.tables.model.Row;
+import com.metatrope.tables.transformer.Transformer;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,21 +27,22 @@ import java.util.NoSuchElementException;
  *
  * @author Lawrence McAlpin (admin@lmcalpin.com)
  */
-public class Tables<T> {
+public class Etl {
     private Importer source;
-    private Exporter<T> sink;
-    private List<RowConverter> converters = new ArrayList<>();
+    private Exporter sink;
+    private List<Transformer> converters = new ArrayList<>();
 
-    public Tables(Importer importer) {
+    public Etl(Importer importer) {
         this.source = importer;
     }
 
-    public static <T> Tables<T> source(Importer importer) {
-        Tables<T> tables = new Tables<T>(importer);
+    public static Etl source(Importer importer) {
+        Etl tables = new Etl(importer);
         return tables;
     }
 
-    private T convert() {
+    public void convert(OutputStream os) {
+        sink.setOutputStream(os);
         sink.onStart(source.getFormat());
         Row currentRow;
         do {
@@ -49,22 +53,34 @@ public class Tables<T> {
             }
             if (currentRow != null) {
                 if (!converters.isEmpty()) {
-                    for (RowConverter converter : converters) {
-                        currentRow = converter.convert(currentRow);
+                    for (Transformer converter : converters) {
+                        currentRow = converter.transform(currentRow);
                     }
                 }
                 sink.onNext(currentRow);
             }
         } while (currentRow != null);
-        return sink.onCompleted();
+        sink.onCompleted();
+    }
+    
+    public String convertToString() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        convert(baos);
+        return baos.toString();
     }
 
-    public T sink(Exporter<T> exporter) {
+    public byte[] convertToByteArray() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        convert(baos);
+        return baos.toByteArray();
+    }
+
+    public Etl sink(Exporter exporter) {
         this.sink = exporter;
-        return convert();
+        return this;
     }
 
-    public Tables<T> transform(RowConverter converter) {
+    public Etl transform(Transformer converter) {
         converters.add(converter);
         return this;
     }

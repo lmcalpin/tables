@@ -10,15 +10,16 @@
  *******************************************************************************/
 package com.metatrope.tables.exporter;
 
-import com.metatrope.tables.DataType;
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
-import com.metatrope.tables.Tables;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.metatrope.tables.Etl;
 import com.metatrope.tables.importer.ExcelImporter;
 import com.metatrope.tables.importer.ListImporter;
+import com.metatrope.tables.model.DataType;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ExcelExporterTest {
     @Test
@@ -35,8 +36,8 @@ public class ExcelExporterTest {
         row2.setValue("tradeID", "22345");
         row2.setValue("notional", "200000.00");
 
-        byte[] data = Tables.<byte[]> source(listImporter).sink(new ExcelExporter("test"));
-        String csv = Tables.<String> source(new ExcelImporter(data)).sink(new CsvExporter());
-        Assert.assertEquals("tradeID,notional\n" + "12345,100000.00\n" + "22345,200000.00\n", csv);
+        byte[] data = Etl.source(listImporter).sink(new ExcelExporter("test")).convertToByteArray();
+        String csv = Etl.source(new ExcelImporter(data)).sink(new CsvExporter()).convertToString();
+        assertEquals("tradeID,notional\n" + "12345,100000.00\n" + "22345,200000.00\n", csv);
     }
 }

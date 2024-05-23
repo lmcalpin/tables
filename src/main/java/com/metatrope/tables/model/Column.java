@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables;
+package com.metatrope.tables.model;
 
 /**
  * A vertical arrangement of cells in a tabular representation of data. All cells in a column

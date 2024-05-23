@@ -8,11 +8,8 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.conversion;
+package com.metatrope.tables.model;
 
-import com.metatrope.tables.Row;
-
-@FunctionalInterface
-public interface RowConverter {
-    public Row convert(Row in);
+public enum DataType {
+    STRING, DECIMAL, INTEGER, DATE, UNKNOWN;
 }

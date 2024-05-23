@@ -1,7 +1,7 @@
 package com.metatrope.tables.importer;
 
-import com.metatrope.tables.Format;
-import com.metatrope.tables.Row;
+import com.metatrope.tables.model.Format;
+import com.metatrope.tables.model.Row;
 
 /**
  * An importer that can infer the file format from a header row.
@@ -40,5 +40,4 @@ public abstract class PeekableImporter implements Importer {
     }
 
     protected abstract Row readRow();
-
 }

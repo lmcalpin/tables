@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables;
+package com.metatrope.tables.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 public class Row {
     private static final Logger LOGGER = LoggerFactory.getLogger(Row.class);
 
-    private Map<Column, Value> data = new HashMap<Column, Value>();
+    private Map<Column, Value> data = new HashMap<>();
     private Format format;
 
     public Row(Format format) {
@@ -47,7 +47,7 @@ public class Row {
     }
 
     public List<Value> getData(List<Column> columns) {
-        List<Value> values = new ArrayList<Value>();
+        List<Value> values = new ArrayList<>();
         for (Column c : columns) {
             Value o = data.get(c);
             if (o == null) {
@@ -84,12 +84,23 @@ public class Row {
         return nv;
     }
 
+    public Value setValue(int colIdx, Object v) {
+        Column c = format.findColumn(colIdx);
+        return setValue(c, v);
+    }
+
     public Value setValue(String id, Object v) {
         Column c = format.findColumn(id);
-        if (c == null)
-            return null;
-        Value nv = setValue(c, v);
-        return nv;
+        return setValue(c, v);
+    }
+    
+    public Row setValues(Object... vs) {
+        List<Column> columns = getColumnsInDefaultOrder();
+        int i = 0;
+        for (Object v : vs) {
+            setValue(columns.get(i++), v);
+        }
+        return this;
     }
 
     @Override

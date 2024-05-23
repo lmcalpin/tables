@@ -8,19 +8,27 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.exporter;
+package com.metatrope.tables;
 
-import com.metatrope.tables.Tables;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.metatrope.tables.exporter.HtmlExporter;
 import com.metatrope.tables.importer.CsvImporter;
 
-import org.junit.Assert;
-import org.junit.Test;
+import java.io.ByteArrayOutputStream;
 
-public class TableFlowTest {
+import org.junit.jupiter.api.Test;
+
+public class EtlTest {
     @Test
     public void testFlow() {
         String csv = "tradeID,notional\n" + "12345,100000.00\n" + "22345,200000.00\n";
-        String html = Tables.<String> source(new CsvImporter(csv)).sink(new HtmlExporter());
-        Assert.assertEquals("<table><th><td>tradeID</td><td>notional</td></th><tr><td>12345</td><td>100000.00</td></tr><tr><td>22345</td><td>200000.00</td></tr></table>", html);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Etl.source(new CsvImporter(csv)).sink(new HtmlExporter()).convert(baos);
+        String html = baos.toString();
+        String expected = "<table><th><td>tradeID</td><td>notional</td></th><tr><td>12345</td><td>100000.00</td></tr><tr><td>22345</td><td>200000.00</td></tr></table>";
+        System.out.println(expected);
+        System.out.println(html);
+        assertEquals(expected, html);
     }
 }
