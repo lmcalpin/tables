@@ -13,6 +13,6 @@ package com.metatrope.tables.transformer;
 import com.metatrope.tables.model.Row;
 
 @FunctionalInterface
-public interface Transformer {
+public interface RowTransformer {
     public Row transform(Row in);
 }

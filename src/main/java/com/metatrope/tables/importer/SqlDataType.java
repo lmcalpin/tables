@@ -10,6 +10,7 @@
  *******************************************************************************/
 package com.metatrope.tables.importer;
 
+import com.metatrope.tables.exception.TableImporterException;
 import com.metatrope.tables.model.DataType;
 
 public enum SqlDataType {
@@ -46,7 +47,7 @@ public enum SqlDataType {
             if (dataType.type == val)
                 return dataType;
         }
-        return null;
+        throw new TableImporterException("Unsupported SQL data type: " + val);
     }
 
     public DataType toDataType() {

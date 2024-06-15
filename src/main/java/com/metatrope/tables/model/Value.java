@@ -25,7 +25,6 @@ import com.google.common.base.Strings;
 public final class Value {
     private Row parent;
     private Object value;
-    private Object originalValue; // for debugging
     private Column column;
 
     public Value(Row parent, Column c, Object inValue) {
@@ -37,7 +36,6 @@ public final class Value {
         }
         this.parent = parent;
         this.column = c;
-        this.originalValue = inValue;
         this.value = normalize(inValue);
     }
 

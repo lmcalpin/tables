@@ -13,7 +13,7 @@ package com.metatrope.tables;
 import com.metatrope.tables.exporter.Exporter;
 import com.metatrope.tables.importer.Importer;
 import com.metatrope.tables.model.Row;
-import com.metatrope.tables.transformer.Transformer;
+import com.metatrope.tables.transformer.RowTransformer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -30,7 +30,7 @@ import java.util.NoSuchElementException;
 public class Etl {
     private Importer source;
     private Exporter sink;
-    private List<Transformer> converters = new ArrayList<>();
+    private List<RowTransformer> converters = new ArrayList<>();
 
     public Etl(Importer importer) {
         this.source = importer;
@@ -53,7 +53,7 @@ public class Etl {
             }
             if (currentRow != null) {
                 if (!converters.isEmpty()) {
-                    for (Transformer converter : converters) {
+                    for (RowTransformer converter : converters) {
                         currentRow = converter.transform(currentRow);
                     }
                 }
@@ -80,7 +80,7 @@ public class Etl {
         return this;
     }
 
-    public Etl transform(Transformer converter) {
+    public Etl transform(RowTransformer converter) {
         converters.add(converter);
         return this;
     }

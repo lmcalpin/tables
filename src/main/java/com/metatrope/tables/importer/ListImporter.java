@@ -29,10 +29,6 @@ public class ListImporter implements Importer {
     private boolean startIterator = false;
     private Iterator<Row> it;
 
-    public ListImporter(List<List<?>> data) {
-        this.format = format;
-    }
-
     public ListImporter(Format format) {
         this.format = format;
     }

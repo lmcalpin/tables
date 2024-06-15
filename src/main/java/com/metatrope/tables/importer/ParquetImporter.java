@@ -22,7 +22,7 @@ import org.apache.parquet.schema.MessageType;
 import org.apache.parquet.schema.Type;
 
 public class ParquetImporter implements Importer {
-    List<Row> rows = new ArrayList();
+    List<Row> rows = new ArrayList<>();
     int idx = 0;
     Format format;
 
@@ -31,7 +31,6 @@ public class ParquetImporter implements Importer {
     }
 
     void readParquetFile(String filePath) {
-        List<SimpleGroup> simpleGroups = new ArrayList<>();
         ParquetFileReader reader;
         try {
             reader = ParquetFileReader.open(HadoopInputFile.fromPath(new Path(filePath), new Configuration()));
@@ -46,7 +45,7 @@ public class ParquetImporter implements Importer {
             while ((pages = reader.readNextRowGroup()) != null) {
                 long rowCount = pages.getRowCount();
                 MessageColumnIO columnIO = new ColumnIOFactory().getColumnIO(schema);
-                RecordReader recordReader = columnIO.getRecordReader(pages, new GroupRecordConverter(schema));
+                RecordReader<?> recordReader = columnIO.getRecordReader(pages, new GroupRecordConverter(schema));
                 for (int i = 0; i < rowCount; i++) {
                     Row row = new Row(format);
                     SimpleGroup simpleGroup = (SimpleGroup) recordReader.read();
@@ -54,7 +53,6 @@ public class ParquetImporter implements Importer {
                         Object val = simpleGroup.getValueToString(col, 0);
                         row.setValue(col, val);
                     }
-                    simpleGroups.add(simpleGroup);
                     rows.add(row);
                 }
             }
