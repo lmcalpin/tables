@@ -23,9 +23,7 @@ public class Tables implements Callable<Integer> {
                 System.out.println("File not found: " + in.getName());
                 return 2;
             }
-            try (FileOutputStream fos = new FileOutputStream(out)) {
-                Etl.source(ImporterFactory.fromFileExtension(in)).sink(ExporterFactory.fromFileExtension(out)).convert(fos);
-            }
+            Etl.source(ImporterFactory.fromFileExtension(in)).sink(ExporterFactory.fromFileExtension(out)).toFile(out);
         } catch (Exception e) {
             System.out.println("Failed to convert: " + e.getMessage());
             return 1;

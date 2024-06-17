@@ -17,6 +17,7 @@ import com.metatrope.tables.model.Row;
 import com.metatrope.tables.transformer.RowTransformer;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -84,6 +85,10 @@ public class Etl {
     
     public void toFile(Path path) {
         toFile(path.toString());
+    }
+    
+    public void toFile(File file) {
+        toFile(file.getPath());
     }
     
     public void toFile(String path) {

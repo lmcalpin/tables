@@ -20,19 +20,16 @@ public class Column {
     private String id;
     private DataType dataType;
     private String metadata;
-    private boolean optional;
 
     public Column(Column other) {
         this.id = other.id;
         this.dataType = other.dataType;
-        this.optional = other.optional;
         this.metadata = other.metadata;
     }
 
     public Column(String id, DataType dataType) {
         this.id = id;
         this.dataType = dataType;
-        this.optional = false;
     }
 
     public Column(String id, DataType dataType, String metadata) {
