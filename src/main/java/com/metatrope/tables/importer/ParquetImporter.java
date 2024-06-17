@@ -18,7 +18,9 @@ import org.apache.parquet.hadoop.util.HadoopInputFile;
 import org.apache.parquet.io.ColumnIOFactory;
 import org.apache.parquet.io.MessageColumnIO;
 import org.apache.parquet.io.RecordReader;
+import org.apache.parquet.schema.GroupType;
 import org.apache.parquet.schema.MessageType;
+import org.apache.parquet.schema.OriginalType;
 import org.apache.parquet.schema.Type;
 
 public class ParquetImporter implements Importer {
@@ -49,8 +51,18 @@ public class ParquetImporter implements Importer {
                 for (int i = 0; i < rowCount; i++) {
                     Row row = new Row(format);
                     SimpleGroup simpleGroup = (SimpleGroup) recordReader.read();
+                    GroupType groupType = simpleGroup.getType();
                     for (int col = 0; col < fields.size(); col++) {
-                        Object val = simpleGroup.getValueToString(col, 0);
+                        Type type = groupType.getType(col);
+                        Object val;
+                        switch (type.asPrimitiveType().getPrimitiveTypeName()) {
+                        case DOUBLE:
+                            val = simpleGroup.getDouble(col, 0);
+                            break;
+                        default:
+                            val = simpleGroup.getValueToString(col, 0);
+                            break;
+                        }
                         row.setValue(col, val);
                     }
                     rows.add(row);

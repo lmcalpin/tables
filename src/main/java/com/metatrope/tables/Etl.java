@@ -10,13 +10,18 @@
  *******************************************************************************/
 package com.metatrope.tables;
 
+import com.metatrope.tables.exception.TableExporterException;
 import com.metatrope.tables.exporter.Exporter;
 import com.metatrope.tables.importer.Importer;
 import com.metatrope.tables.model.Row;
 import com.metatrope.tables.transformer.RowTransformer;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -57,7 +62,9 @@ public class Etl {
                         currentRow = converter.transform(currentRow);
                     }
                 }
-                sink.onNext(currentRow);
+                if (currentRow != null) {
+                    sink.onNext(currentRow);
+                }
             }
         } while (currentRow != null);
         sink.onCompleted();
@@ -73,6 +80,20 @@ public class Etl {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         convert(baos);
         return baos.toByteArray();
+    }
+    
+    public void toFile(Path path) {
+        toFile(path.toString());
+    }
+    
+    public void toFile(String path) {
+        try (FileOutputStream fos = new FileOutputStream(path)) {
+            convert(fos);
+        } catch (FileNotFoundException e) {
+            throw new TableExporterException(e);
+        } catch (IOException e) {
+            throw new TableExporterException(e);
+        }
     }
 
     public Etl sink(Exporter exporter) {
