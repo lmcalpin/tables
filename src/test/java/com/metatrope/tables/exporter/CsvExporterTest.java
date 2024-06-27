@@ -38,7 +38,7 @@ public class CsvExporterTest {
         row2.setValue("notional", "200000.00");
         row2.setValue("ticker", "CAT,JD");
 
-        String csv = Etl.source(listImporter).sink(new CsvExporter()).convertToString();
+        String csv = Etl.source(listImporter).sink(new CsvExporter()).asString();
         assertEquals("tradeID,notional,ticker\n" + "12345,100000.00,AAPL\n" + "22345,200000.00,\"CAT,JD\"\n", csv);
     }
 }

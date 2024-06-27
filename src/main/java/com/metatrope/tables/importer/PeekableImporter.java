@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2024 Lawrence McAlpin
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Lawrence McAlpin - initial API and implementation
+ *******************************************************************************/
 package com.metatrope.tables.importer;
 
 import com.metatrope.tables.model.Format;
@@ -5,8 +15,6 @@ import com.metatrope.tables.model.Row;
 
 /**
  * An importer that can infer the file format from a header row.
- *
- * @author Lawrence McAlpin (admin@lmcalpin.com)
  */
 public abstract class PeekableImporter implements Importer {
     private Row lastRow;

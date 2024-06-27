@@ -14,9 +14,11 @@ import com.metatrope.tables.model.Format;
 import com.metatrope.tables.model.Row;
 
 import java.io.Closeable;
+import java.util.Iterator;
 
-public interface Importer extends Closeable {
+public interface Importer extends Closeable, Iterator<Row> {
     public Format getFormat();
 
+    @Override
     public Row next();
 }

@@ -135,4 +135,12 @@ public class ExcelImporter implements Importer {
         }
         return dataRow;
     }
+
+    @Override
+    public boolean hasNext() {
+        HSSFRow row = sheet.getRow(rowNumber);
+        if (row == null)
+            return false;
+        return true;
+    }
 }

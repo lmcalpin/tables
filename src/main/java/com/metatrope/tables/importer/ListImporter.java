@@ -19,9 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A representation of tabular data in memory.
- *
- * @author Lawrence McAlpin (admin@lmcalpin.com)
+ * Used to iterate over a List of Row objects when importing Rows into the Etl engine.
  */
 public class ListImporter implements Importer {
     private Format format;
@@ -50,10 +48,20 @@ public class ListImporter implements Importer {
 
     @Override
     public Row next() {
+        initIterator();
+        return it.next();
+    }
+
+    private void initIterator() {
         if (!startIterator) {
             it = rows.iterator();
             startIterator = true;
         }
-        return it.next();
+    }
+
+    @Override
+    public boolean hasNext() {
+        initIterator();
+        return it.hasNext();
     }
 }

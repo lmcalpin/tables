@@ -14,6 +14,7 @@ import com.metatrope.tables.exception.TableExporterException;
 import com.metatrope.tables.exporter.Exporter;
 import com.metatrope.tables.importer.Importer;
 import com.metatrope.tables.model.Row;
+import com.metatrope.tables.transformer.RowFilteringTransformer;
 import com.metatrope.tables.transformer.RowTransformer;
 
 import java.io.ByteArrayOutputStream;
@@ -26,12 +27,11 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 /**
  * A helper class to convert data from one tabular format to another. The input is referred to
  * as the source, and the representation we want to transform it to is the sink.
- *
- * @author Lawrence McAlpin (admin@lmcalpin.com)
  */
 public class Etl {
     private Importer source;
@@ -51,7 +51,7 @@ public class Etl {
         sink.setOutputStream(os);
         sink.onStart(source.getFormat());
         Row currentRow;
-        do {
+        while (source.hasNext()) {
             try {
                 currentRow = source.next();
             } catch (NoSuchElementException e) {
@@ -67,17 +67,17 @@ public class Etl {
                     sink.onNext(currentRow);
                 }
             }
-        } while (currentRow != null);
+        }
         sink.onCompleted();
     }
 
-    public String convertToString() {
+    public String asString() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         convert(baos);
         return baos.toString();
     }
 
-    public byte[] convertToByteArray() {
+    public byte[] asByteArray() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         convert(baos);
         return baos.toByteArray();
@@ -106,6 +106,11 @@ public class Etl {
         return this;
     }
 
+    public Etl transform(Predicate<Row> filter) {
+        converters.add(new RowFilteringTransformer(filter));
+        return this;
+    }
+    
     public Etl transform(RowTransformer converter) {
         converters.add(converter);
         return this;

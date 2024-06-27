@@ -30,12 +30,14 @@ public class JdbcImporter implements Importer {
     private Format format;
     private PreparedStatement ps;
     private ResultSet rs;
-
+    private boolean hasNext;
+    
     public JdbcImporter(Connection conn, String tableName) {
         format = getFormat(conn, tableName);
         try {
             ps = conn.prepareStatement("SELECT * FROM " + tableName);
             rs = ps.executeQuery();
+            hasNext = rs.next();
         } catch (SQLException e) {
             throw new TableImporterException(e);
         }
@@ -80,7 +82,7 @@ public class JdbcImporter implements Importer {
     @Override
     public Row next() {
         try {
-            if (!rs.next())
+            if (!hasNext)
                 return null;
             int colCount = format.getNumberOfColumns();
             Row datarow = new Row(format);
@@ -89,9 +91,15 @@ public class JdbcImporter implements Importer {
                 Object obj = rs.getObject(i);
                 datarow.setValue(colName, obj);
             }
+            hasNext = rs.next();
             return datarow;
         } catch (SQLException e) {
             throw new TableImporterException(e);
         }
+    }
+
+    @Override
+    public boolean hasNext() {
+        return hasNext;
     }
 }

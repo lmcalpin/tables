@@ -100,4 +100,9 @@ public class CsvImporter extends PeekableImporter {
             return next();
         }
     }
+
+    @Override
+    public boolean hasNext() {
+        return iterator.hasNext();
+    }
 }

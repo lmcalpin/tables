@@ -36,8 +36,8 @@ public class ExcelExporterTest {
         row2.setValue("tradeID", "22345");
         row2.setValue("notional", "200000.00");
 
-        byte[] data = Etl.source(listImporter).sink(new ExcelExporter("test")).convertToByteArray();
-        String csv = Etl.source(new ExcelImporter(data)).sink(new CsvExporter()).convertToString();
+        byte[] data = Etl.source(listImporter).sink(new ExcelExporter("test")).asByteArray();
+        String csv = Etl.source(new ExcelImporter(data)).sink(new CsvExporter()).asString();
         assertEquals("tradeID,notional\n" + "12345,100000.00\n" + "22345,200000.00\n", csv);
     }
 }

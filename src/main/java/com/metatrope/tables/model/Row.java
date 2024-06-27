@@ -19,9 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A set of related columns representing a row of data.
- *
- * @author Lawrence McAlpin (admin@lmcalpin.com)
+ * A set of values, each associated with one of the columns in the table.
  */
 public class Row {
     private static final Logger LOGGER = LoggerFactory.getLogger(Row.class);
