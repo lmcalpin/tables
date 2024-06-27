@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.exporter;
+package com.metatrope.tables.sinks;
 
 import com.metatrope.tables.exception.TableExporterException;
 import com.metatrope.tables.model.Column;
@@ -31,13 +31,13 @@ import org.apache.parquet.hadoop.metadata.CompressionCodecName;
 
 // [WIP] TODO: the Parquet writer writes to a temp file; when the Exporter is completed, 
 // it copies the file to the output stream.  This isn't great, but it works for now.
-public class ParquetExporter implements Exporter {
+public class ParquetSink implements Sink {
     private Schema schema;
     private ParquetWriter<GenericData.Record> writer;
     private String tempFileName;
     private OutputStream os;
 
-    public ParquetExporter() {
+    public ParquetSink() {
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ParquetExporter implements Exporter {
             }
             os.close();
             fis.close();
-            
+
             File file = new File(tempFileName);
             boolean deleted = file.delete();
             System.out.println(tempFileName + " is deleted? " + deleted);
@@ -117,7 +117,8 @@ public class ParquetExporter implements Exporter {
             default:
                 avroDataType = "string";
                 break;
-            };
+            }
+            ;
             fieldListBuilder.append(String.format("""
                     { "name": "%s",
                       "type": "%s" },""", column.getID(), avroDataType));

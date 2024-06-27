@@ -22,6 +22,8 @@ dependencies {
     api(libs.org.slf4j.slf4j.api)
     implementation("org.apache.parquet:parquet-avro:1.10.0")
     implementation("org.apache.hadoop:hadoop-common:3.1.0")
+    implementation("org.yaml:snakeyaml:2.2")
+    implementation("com.google.code.gson:gson:2.11.0")
     testImplementation(libs.org.junit.jupiter.junit.jupiter.engine)
 }
 

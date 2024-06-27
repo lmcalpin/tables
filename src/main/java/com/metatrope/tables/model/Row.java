@@ -69,7 +69,7 @@ public class Row {
         Value v = getData(columnName);
         return v.getObject();
     }
-    
+
     public Object get(String columnName) {
         return getDataAsObject(columnName);
     }

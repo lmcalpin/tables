@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.importer;
+package com.metatrope.tables.sources;
 
 import com.metatrope.tables.exception.TableImporterException;
 import com.metatrope.tables.model.DataType;

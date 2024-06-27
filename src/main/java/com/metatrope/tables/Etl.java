@@ -11,9 +11,9 @@
 package com.metatrope.tables;
 
 import com.metatrope.tables.exception.TableExporterException;
-import com.metatrope.tables.exporter.Exporter;
-import com.metatrope.tables.importer.Importer;
 import com.metatrope.tables.model.Row;
+import com.metatrope.tables.sinks.Sink;
+import com.metatrope.tables.sources.Source;
 import com.metatrope.tables.transformer.RowFilter;
 import com.metatrope.tables.transformer.RowTransformer;
 
@@ -34,15 +34,15 @@ import java.util.function.Predicate;
  * as the source, and the representation we want to transform it to is the sink.
  */
 public class Etl {
-    private Importer source;
-    private Exporter sink;
+    private Source source;
+    private Sink sink;
     private List<RowTransformer> converters = new ArrayList<>();
 
-    public Etl(Importer importer) {
+    public Etl(Source importer) {
         this.source = importer;
     }
 
-    public static Etl source(Importer importer) {
+    public static Etl source(Source importer) {
         Etl tables = new Etl(importer);
         return tables;
     }
@@ -82,15 +82,15 @@ public class Etl {
         convert(baos);
         return baos.toByteArray();
     }
-    
+
     public void toFile(Path path) {
         toFile(path.toString());
     }
-    
+
     public void toFile(File file) {
         toFile(file.getPath());
     }
-    
+
     public void toFile(String path) {
         try (FileOutputStream fos = new FileOutputStream(path)) {
             convert(fos);
@@ -101,7 +101,7 @@ public class Etl {
         }
     }
 
-    public Etl sink(Exporter exporter) {
+    public Etl sink(Sink exporter) {
         this.sink = exporter;
         return this;
     }
@@ -110,7 +110,7 @@ public class Etl {
         converters.add(new RowFilter(filter));
         return this;
     }
-    
+
     public Etl transform(RowTransformer converter) {
         converters.add(converter);
         return this;

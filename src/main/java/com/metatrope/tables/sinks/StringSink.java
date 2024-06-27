@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.exporter;
+package com.metatrope.tables.sinks;
 
 import com.metatrope.tables.exception.TableExporterException;
 import com.metatrope.tables.model.Value;
@@ -17,11 +17,11 @@ import com.metatrope.util.IOUtil;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-public abstract class StringExporter implements Exporter {
+public abstract class StringSink implements Sink {
     private PrintStream stream;
     private OutputStream os;
 
-    public StringExporter() {
+    public StringSink() {
     }
 
     protected void append(String o) {

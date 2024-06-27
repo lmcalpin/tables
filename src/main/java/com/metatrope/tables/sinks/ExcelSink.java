@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.exporter;
+package com.metatrope.tables.sinks;
 
 import com.metatrope.tables.exception.TableExporterException;
 import com.metatrope.tables.model.Column;
@@ -28,7 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-public class ExcelExporter implements Exporter {
+public class ExcelSink implements Sink {
     private HSSFWorkbook wb;
     private ExcelColorizer colorizer;
     private String sectionName;
@@ -37,11 +37,11 @@ public class ExcelExporter implements Exporter {
     private HSSFSheet sheet;
     private OutputStream os;
 
-    public ExcelExporter(String sectionName) {
+    public ExcelSink(String sectionName) {
         this.sectionName = sectionName;
     }
 
-    public ExcelExporter(String sectionName, ExcelColorizer colorizer) {
+    public ExcelSink(String sectionName, ExcelColorizer colorizer) {
         this.sectionName = sectionName;
         this.colorizer = colorizer;
     }

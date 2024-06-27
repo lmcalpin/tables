@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.importer;
+package com.metatrope.tables.sources;
 
 import com.metatrope.tables.model.Format;
 import com.metatrope.tables.model.Row;
@@ -16,7 +16,7 @@ import com.metatrope.tables.model.Row;
 /**
  * An importer that can infer the file format from a header row.
  */
-public abstract class PeekableImporter implements Importer {
+public abstract class PeekableSource implements Source {
     private Row lastRow;
     private boolean mayPeekAhead = true;
     protected Format format;

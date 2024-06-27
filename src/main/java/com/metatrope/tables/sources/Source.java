@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.importer;
+package com.metatrope.tables.sources;
 
 import com.metatrope.tables.model.Format;
 import com.metatrope.tables.model.Row;
@@ -16,7 +16,7 @@ import com.metatrope.tables.model.Row;
 import java.io.Closeable;
 import java.util.Iterator;
 
-public interface Importer extends Closeable, Iterator<Row> {
+public interface Source extends Closeable, Iterator<Row> {
     public Format getFormat();
 
     @Override

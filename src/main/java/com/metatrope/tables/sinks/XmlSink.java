@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.exporter;
+package com.metatrope.tables.sinks;
 
 import com.metatrope.tables.model.Column;
 import com.metatrope.tables.model.DataType;
@@ -17,17 +17,16 @@ import com.metatrope.tables.model.Row;
 import com.metatrope.tables.model.Value;
 import com.metatrope.util.FormatUtils;
 
-import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.google.common.base.Strings;
 
-public class XmlExporter extends StringExporter {
+public class XmlSink extends StringSink {
     private String rootName = "report";
 
-    public XmlExporter() {
+    public XmlSink() {
         super();
     }
 
@@ -84,7 +83,7 @@ public class XmlExporter extends StringExporter {
         append(" </row>\n");
     }
 
-    public XmlExporter rootNamed(String name) {
+    public XmlSink rootNamed(String name) {
         this.rootName = name;
         return this;
     }

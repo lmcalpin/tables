@@ -8,12 +8,13 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.importer;
+package com.metatrope.tables.sources;
 
 import com.metatrope.tables.exception.TableImporterException;
 import com.metatrope.tables.model.Format;
 import com.metatrope.tables.model.Row;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,16 +33,20 @@ import org.apache.parquet.schema.GroupType;
 import org.apache.parquet.schema.MessageType;
 import org.apache.parquet.schema.Type;
 
-public class ParquetImporter implements Importer {
+public class ParquetSource implements Source {
     List<Row> rows = new ArrayList<>();
     int idx = 0;
     Format format;
 
-    public ParquetImporter(String filePath) {
-        readParquetFile(filePath);
+    public ParquetSource(File file) {
+        readParquetFile(file.getAbsolutePath());
     }
 
-    void readParquetFile(String filePath) {
+    public ParquetSource(java.nio.file.Path path) {
+        readParquetFile(path.toString());
+    }
+
+    private void readParquetFile(String filePath) {
         ParquetFileReader reader;
         try {
             reader = ParquetFileReader.open(HadoopInputFile.fromPath(new Path(filePath), new Configuration()));

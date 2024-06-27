@@ -8,19 +8,15 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.exporter;
+package com.metatrope.tables.sinks;
 
-import com.metatrope.tables.model.Format;
 import com.metatrope.tables.model.Row;
 
-import java.io.OutputStream;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
-public interface Exporter extends AutoCloseable {
-    public void onCompleted();
+public interface ExcelColorizer {
+    public void colorize(HSSFRow hssfrow, Row row);
 
-    public void setOutputStream(OutputStream os);
-
-    public void onNext(Row row);
-
-    public void onStart(Format format);
+    public void colorize(HSSFWorkbook workbook);
 }

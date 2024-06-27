@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.importer;
+package com.metatrope.tables.sources;
 
 import com.metatrope.tables.exception.TableImporterException;
 import com.metatrope.tables.model.Format;
@@ -24,15 +24,15 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JdbcImporter implements Importer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcImporter.class);
+public class JdbcSource implements Source {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcSource.class);
 
     private Format format;
     private PreparedStatement ps;
     private ResultSet rs;
     private boolean hasNext;
-    
-    public JdbcImporter(Connection conn, String tableName) {
+
+    public JdbcSource(Connection conn, String tableName) {
         format = getFormat(conn, tableName);
         try {
             ps = conn.prepareStatement("SELECT * FROM " + tableName);

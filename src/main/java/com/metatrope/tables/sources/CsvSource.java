@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.importer;
+package com.metatrope.tables.sources;
 
 import com.metatrope.tables.exception.TableImporterException;
 import com.metatrope.tables.model.Column;
@@ -16,7 +16,9 @@ import com.metatrope.tables.model.DataType;
 import com.metatrope.tables.model.Format;
 import com.metatrope.tables.model.Row;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,17 +26,21 @@ import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-public class CsvImporter extends PeekableImporter {
+public class CsvSource extends PeekableSource {
     private Stream<String> stream;
     private Iterator<String> iterator;
     private boolean loadedHeader = false;
 
-    public CsvImporter(String csv) {
+    public CsvSource(File file) throws IOException {
+        this(Files.readString(file.toPath()));
+    }
+
+    public CsvSource(String csv) {
         stream = Pattern.compile("\n").splitAsStream(csv);
         iterator = stream.iterator();
     }
 
-    public CsvImporter(Format format, String csv) {
+    public CsvSource(Format format, String csv) {
         this(csv);
         loadedHeader = true;
     }

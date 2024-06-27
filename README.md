@@ -4,3 +4,11 @@ Tables is a simple utility for reading and writing tabular data (a set of rows w
 particularly CSV files.  This is not intended to be production grade.  If you are loading a large number of files or manipulating very large data sets, 
 you would be better off using spark or some other tool.  I just use this to make simple utility classes to generate dummy data in various formats.
 
+## Example
+
+    import static com.metatrope.tables.Sources.*
+    Etl.source(fromCsv(...)).sink(asJson()).convert(System.out);
+    
+### Caveat
+
+This is a hobby project and a work in progress.  It is not intended to be production grade.

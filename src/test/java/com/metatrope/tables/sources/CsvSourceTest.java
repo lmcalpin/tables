@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.importer;
+package com.metatrope.tables.sources;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -18,7 +18,7 @@ import com.metatrope.tables.model.Row;
 
 import org.junit.jupiter.api.Test;
 
-public class TablesImporterTest {
+public class CsvSourceTest {
     @Test
     public void testImport() throws Exception {
         Format format = new Format();
@@ -27,7 +27,7 @@ public class TablesImporterTest {
 
         String csv = "tradeID,notional\n" + "12345,100000.00\n" + "22345,200000.00\n";
 
-        try (CsvImporter importer = new CsvImporter(csv)) {
+        try (CsvSource importer = new CsvSource(csv)) {
             Row row = importer.next();
             assertEquals("12345", row.getData("tradeID").getObject());
             row = importer.next();

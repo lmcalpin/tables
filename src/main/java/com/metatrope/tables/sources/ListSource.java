@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.importer;
+package com.metatrope.tables.sources;
 
 import com.metatrope.tables.model.Format;
 import com.metatrope.tables.model.Row;
@@ -21,13 +21,13 @@ import java.util.List;
 /**
  * Used to iterate over a List of Row objects when importing Rows into the Etl engine.
  */
-public class ListImporter implements Importer {
+public class ListSource implements Source {
     private Format format;
     private List<Row> rows = new ArrayList<>();
     private boolean startIterator = false;
     private Iterator<Row> it;
 
-    public ListImporter(Format format) {
+    public ListSource(Format format) {
         this.format = format;
     }
 

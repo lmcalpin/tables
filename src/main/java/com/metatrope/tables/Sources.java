@@ -8,27 +8,42 @@
  * Contributors:
  *     Lawrence McAlpin - initial implementation
  *******************************************************************************/
-package com.metatrope.tables.cli;
+package com.metatrope.tables;
 
 import com.metatrope.tables.exception.TableImporterException;
-import com.metatrope.tables.importer.CsvImporter;
-import com.metatrope.tables.importer.Importer;
-import com.metatrope.tables.importer.ParquetImporter;
+import com.metatrope.tables.sources.CsvSource;
+import com.metatrope.tables.sources.ParquetSource;
+import com.metatrope.tables.sources.Source;
 import com.metatrope.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
-public class ImporterFactory {
-    public static Importer fromFileExtension(File file) {
+public class Sources {
+    public static CsvSource fromCsv(String csvContents) {
+        return new CsvSource(csvContents);
+    }
+
+    public static CsvSource fromCsv(File file) {
+        try {
+            return new CsvSource(file);
+        } catch (IOException e) {
+            throw new TableImporterException(e);
+        }
+    }
+
+    public static ParquetSource fromParquet(File file) {
+        return new ParquetSource(file);
+    }
+
+    public static Source fromFileExtension(File file) {
         try {
             String extension = FileUtils.getExtension(file);
             switch (extension) {
             case "csv":
-                return new CsvImporter(Files.readString(file.toPath()));
+                return new CsvSource(file);
             case "parquet":
-                return new ParquetImporter(file.getPath());
+                return new ParquetSource(file);
             default:
                 throw new TableImporterException("Unsupported extension: " + extension);
             }
@@ -36,5 +51,4 @@ public class ImporterFactory {
             throw new TableImporterException(e);
         }
     }
-
 }

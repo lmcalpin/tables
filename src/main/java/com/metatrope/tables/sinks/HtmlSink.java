@@ -8,14 +8,14 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.exporter;
+package com.metatrope.tables.sinks;
 
 import com.metatrope.tables.model.Column;
 import com.metatrope.tables.model.Format;
 import com.metatrope.tables.model.Row;
 
-public class HtmlExporter extends StringExporter {
-    public HtmlExporter() {
+public class HtmlSink extends StringSink {
+    public HtmlSink() {
         super();
     }
 

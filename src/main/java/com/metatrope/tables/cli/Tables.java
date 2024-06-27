@@ -11,6 +11,8 @@
 package com.metatrope.tables.cli;
 
 import com.metatrope.tables.Etl;
+import com.metatrope.tables.Sinks;
+import com.metatrope.tables.Sources;
 
 import java.io.File;
 import java.util.concurrent.Callable;
@@ -32,7 +34,7 @@ public class Tables implements Callable<Integer> {
                 System.out.println("File not found: " + in.getName());
                 return 2;
             }
-            Etl.source(ImporterFactory.fromFileExtension(in)).sink(ExporterFactory.fromFileExtension(out)).toFile(out);
+            Etl.source(Sources.fromFileExtension(in)).sink(Sinks.fromFileExtension(out)).toFile(out);
         } catch (Exception e) {
             System.out.println("Failed to convert: " + e.getMessage());
             return 1;

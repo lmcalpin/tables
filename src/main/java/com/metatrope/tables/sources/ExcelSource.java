@@ -8,7 +8,7 @@
  * Contributors:
  *     Lawrence McAlpin - initial API and implementation
  *******************************************************************************/
-package com.metatrope.tables.importer;
+package com.metatrope.tables.sources;
 
 import com.metatrope.tables.exception.TableImporterException;
 import com.metatrope.tables.model.Column;
@@ -30,14 +30,14 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 // use HSSF to load an Excel spreadsheet into our Tables data structure
-public class ExcelImporter implements Importer {
+public class ExcelSource implements Source {
     private HSSFWorkbook wb;
     private HSSFSheet sheet;
     private int rowNumber = 0;
     private Format format;
     private String[] colNames;
 
-    public ExcelImporter(byte[] data) {
+    public ExcelSource(byte[] data) {
         try {
             ByteArrayInputStream bis = new ByteArrayInputStream(data);
             wb = new HSSFWorkbook(bis);

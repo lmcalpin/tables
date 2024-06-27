@@ -8,26 +8,27 @@
  * Contributors:
  *     Lawrence McAlpin - initial implementation
  *******************************************************************************/
-package com.metatrope.tables.exporter;
+package com.metatrope.tables.sinks;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.metatrope.tables.Etl;
-import com.metatrope.tables.importer.ListImporter;
-import com.metatrope.tables.importer.ParquetImporter;
 import com.metatrope.tables.model.DataType;
 import com.metatrope.tables.model.Format;
 import com.metatrope.tables.model.Row;
+import com.metatrope.tables.sources.ListSource;
+import com.metatrope.tables.sources.ParquetSource;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.nio.file.Path;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
 // to work on Windows, you must set the HADOOP_HOME directory to the right location
-public class ParquetExporterTest {
+public class ParquetSinkTest {
     @Test
     public void testExport() {
         Format format = new Format();
@@ -35,7 +36,7 @@ public class ParquetExporterTest {
         format.addColumn("notional", DataType.DECIMAL);
         format.addColumn("ticker", DataType.STRING);
 
-        ListImporter listImporter = new ListImporter(format);
+        ListSource listImporter = new ListSource(format);
         Row row1 = listImporter.addRow();
         row1.setValue("tradeID", "12345");
         row1.setValue("notional", 100000.00);
@@ -47,8 +48,8 @@ public class ParquetExporterTest {
 
         String fileName = UUID.randomUUID().toString() + ".parquet";
         try {
-            Etl.source(listImporter).sink(new ParquetExporter()).toFile(fileName);
-            ParquetImporter importer = new ParquetImporter(fileName);
+            Etl.source(listImporter).sink(new ParquetSink()).toFile(fileName);
+            ParquetSource importer = new ParquetSource(Path.of(fileName));
             Row irow1 = importer.next();
             assertEquals(row1.get("tradeID"), irow1.get("tradeID"));
             BigDecimal expected = new BigDecimal(row1.get("notional").toString());
@@ -60,27 +61,27 @@ public class ParquetExporterTest {
             file.delete();
         }
     }
-    
+
     @Test
     public void testAvroSchema() {
         Format format = new Format();
         format.addColumn("name", DataType.STRING);
         format.addColumn("val", DataType.INTEGER);
-        String avroSchema = ParquetExporter.createSchema(format).toString(true);
+        String avroSchema = ParquetSink.createSchema(format).toString(true);
         avroSchema = avroSchema.replaceAll("\\r", ""); // normalize to \n as line end terminator
         String expected = """
-{
-  "type" : "record",
-  "name" : "table",
-  "namespace" : "com.metatrope.tables",
-  "fields" : [ {
-    "name" : "name",
-    "type" : "string"
-  }, {
-    "name" : "val",
-    "type" : "int"
-  } ]
-}""";
+                {
+                  "type" : "record",
+                  "name" : "table",
+                  "namespace" : "com.metatrope.tables",
+                  "fields" : [ {
+                    "name" : "name",
+                    "type" : "string"
+                  }, {
+                    "name" : "val",
+                    "type" : "int"
+                  } ]
+                }""";
         assertEquals(expected, avroSchema);
     }
 }
