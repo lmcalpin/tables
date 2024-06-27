@@ -14,10 +14,10 @@ import com.metatrope.tables.model.Row;
 
 import java.util.function.Predicate;
 
-public class RowFilteringTransformer implements RowTransformer {
+public class RowFilter implements RowTransformer {
     private Predicate<Row> filter;
     
-    public RowFilteringTransformer(Predicate<Row> filter) {
+    public RowFilter(Predicate<Row> filter) {
         this.filter = filter;
     }
 

@@ -29,6 +29,8 @@ import org.apache.parquet.avro.AvroParquetWriter;
 import org.apache.parquet.hadoop.ParquetWriter;
 import org.apache.parquet.hadoop.metadata.CompressionCodecName;
 
+// [WIP] TODO: the Parquet writer writes to a temp file; when the Exporter is completed, 
+// it copies the file to the output stream.  This isn't great, but it works for now.
 public class ParquetExporter implements Exporter {
     private Schema schema;
     private ParquetWriter<GenericData.Record> writer;

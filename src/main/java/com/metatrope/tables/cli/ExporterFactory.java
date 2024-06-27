@@ -15,6 +15,7 @@ import com.metatrope.tables.exporter.CsvExporter;
 import com.metatrope.tables.exporter.ExcelExporter;
 import com.metatrope.tables.exporter.Exporter;
 import com.metatrope.tables.exporter.HtmlExporter;
+import com.metatrope.tables.exporter.ParquetExporter;
 import com.metatrope.tables.exporter.XmlExporter;
 import com.metatrope.util.FileUtils;
 
@@ -30,6 +31,8 @@ public class ExporterFactory {
             return new HtmlExporter();
         case "xml":
             return new XmlExporter();
+        case "parquet":
+            return new ParquetExporter();
         case "xsl":
             return new ExcelExporter("table");
         default:

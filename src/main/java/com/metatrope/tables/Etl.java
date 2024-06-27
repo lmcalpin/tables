@@ -14,7 +14,7 @@ import com.metatrope.tables.exception.TableExporterException;
 import com.metatrope.tables.exporter.Exporter;
 import com.metatrope.tables.importer.Importer;
 import com.metatrope.tables.model.Row;
-import com.metatrope.tables.transformer.RowFilteringTransformer;
+import com.metatrope.tables.transformer.RowFilter;
 import com.metatrope.tables.transformer.RowTransformer;
 
 import java.io.ByteArrayOutputStream;
@@ -107,7 +107,7 @@ public class Etl {
     }
 
     public Etl transform(Predicate<Row> filter) {
-        converters.add(new RowFilteringTransformer(filter));
+        converters.add(new RowFilter(filter));
         return this;
     }
     
