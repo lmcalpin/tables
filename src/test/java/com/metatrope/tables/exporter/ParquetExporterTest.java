@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+// to work on Windows, you must set the HADOOP_HOME directory to the right location
 public class ParquetExporterTest {
     @Test
     public void testExport() {

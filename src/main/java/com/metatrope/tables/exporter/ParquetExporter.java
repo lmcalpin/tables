@@ -76,8 +76,6 @@ public class ParquetExporter implements Exporter {
     public void onStart(Format format) {
         try {
             this.schema = createSchema(format);
-            // TODO - this should not be here :)
-            System.setProperty("hadoop.home.dir", "C:\\hadoop\\hadoop-3.3.6");
             String tmpDir = System.getProperty("java.io.tmpdir");
             this.tempFileName = tmpDir + "/" + UUID.randomUUID().toString() + "_tables.parquet";
             this.writer = AvroParquetWriter.<GenericData.Record> builder(new Path(tempFileName)).withConf(new Configuration()).withSchema(schema).withCompressionCodec(CompressionCodecName.SNAPPY).build();

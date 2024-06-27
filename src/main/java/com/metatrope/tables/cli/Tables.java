@@ -3,7 +3,6 @@ package com.metatrope.tables.cli;
 import com.metatrope.tables.Etl;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.concurrent.Callable;
 
 import picocli.CommandLine;

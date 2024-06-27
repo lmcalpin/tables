@@ -13,7 +13,6 @@ package com.metatrope.tables.exporter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.metatrope.tables.Etl;
-import com.metatrope.tables.importer.ExcelImporter;
 import com.metatrope.tables.importer.ListImporter;
 import com.metatrope.tables.model.DataType;
 import com.metatrope.tables.model.Format;
